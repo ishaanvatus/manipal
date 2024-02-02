@@ -1,0 +1,164 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; add 10 32-bit ints present in code mem and save to dat
+                       a mem
+    2 00000000                 area             reset, data, readonly
+    3 00000000                 export           __Vectors
+    4 00000000         __Vectors
+    5 00000000 10001000        dcd              0x10001000
+    6 00000004 00000000        dcd              Reset_Handler
+    7 00000008                 align
+    8 00000008                 area             program, code, readonly
+    9 00000000                 entry
+   10 00000000                 export           Reset_Handler
+   11 00000000         
+   12 00000000         Reset_Handler
+   13 00000000 4810            ldr              r0, =primes
+   14 00000002 4911            ldr              r1, =res
+   15 00000004 F04F 0400       mov              r4, #0
+   16 00000008 F04F 0200       mov              r2, #0
+   17 0000000C 600A            str              r2, [r1]
+   18 0000000E F04F 020A       mov              r2, #N
+   19 00000012         loop
+   20 00000012 F850 3B04       ldr              r3, [r0], #4
+   21 00000016 441C            add              r4, r3
+   22 00000018 3A01            subs             r2, #1
+   23 0000001A D1FA            bne              loop
+   24 0000001C 600C            str              r4, [r1]
+   25 0000001E         halt
+   26 0000001E E7FE            b                halt
+   27 00000020         
+   28 00000020 0000000A 
+                       N       equ              10
+   29 00000020 00000002 
+              00000003 
+              00000005 
+              00000007 
+              0000000B 
+              0000000D 
+              00000011 
+              00000013 
+              00000017 primes  DCD              0x02, 0x03, 0x05, 0x07, 0x0b, 0
+x0d, 0x11, 0x13, 0x17
+   30 00000044 00000000 
+              00000000         AREA             sum, DATA, READWRITE
+   31 00000000 00000000 
+                       res     DCD              0x00
+   32 00000004                 END
+Command Line: --debug --xref --cpu=Cortex-M3 --apcs=interwork --depend=.\sum.d 
+-o.\sum.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Include -IC:\Keil\ARM\Inc\
+NXP\LPC17xx --predefine="__EVAL SETA 1" --list=.\sum.lst sum.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__Vectors 00000000
+
+Symbol: __Vectors
+   Definitions
+      At line 4 in file sum.s
+   Uses
+      At line 3 in file sum.s
+Comment: __Vectors used once
+reset 00000000
+
+Symbol: reset
+   Definitions
+      At line 2 in file sum.s
+   Uses
+      None
+Comment: reset unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Reset_Handler 00000000
+
+Symbol: Reset_Handler
+   Definitions
+      At line 12 in file sum.s
+   Uses
+      At line 6 in file sum.s
+      At line 10 in file sum.s
+
+halt 0000001E
+
+Symbol: halt
+   Definitions
+      At line 25 in file sum.s
+   Uses
+      At line 26 in file sum.s
+Comment: halt used once
+loop 00000012
+
+Symbol: loop
+   Definitions
+      At line 19 in file sum.s
+   Uses
+      At line 23 in file sum.s
+Comment: loop used once
+primes 00000020
+
+Symbol: primes
+   Definitions
+      At line 29 in file sum.s
+   Uses
+      At line 13 in file sum.s
+Comment: primes used once
+program 00000000
+
+Symbol: program
+   Definitions
+      At line 8 in file sum.s
+   Uses
+      None
+Comment: program unused
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+res 00000000
+
+Symbol: res
+   Definitions
+      At line 31 in file sum.s
+   Uses
+      At line 14 in file sum.s
+Comment: res used once
+sum 00000000
+
+Symbol: sum
+   Definitions
+      At line 30 in file sum.s
+   Uses
+      None
+Comment: sum unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+N 0000000A
+
+Symbol: N
+   Definitions
+      At line 28 in file sum.s
+   Uses
+      At line 18 in file sum.s
+Comment: N used once
+1 symbol
+343 symbols in table

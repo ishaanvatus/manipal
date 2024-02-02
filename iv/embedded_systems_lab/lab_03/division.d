@@ -1,1 +1,0 @@
-.\division.o: division.s

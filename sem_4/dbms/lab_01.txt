@@ -1,0 +1,20 @@
+SQL>create table employee (
+    emp_no int primary key,
+    emp_name varchar(20),
+    emp_address varchar(20));
+
+SQl>describe employee;
+
+insert into employee values (1, 'ISHAAN', 'MANIPAL');
+insert into employee values (2, 'PRABHAV', 'BANGALORE');
+insert into employee values (3, 'SHREYAS', 'CHENNAI');
+insert into employee values (4, 'RUTHU', 'MANGALORE');
+insert into employee values (5, 'PRASHANTH', 'MANIPAL');
+
+select emp_name from employee;
+
+alter table employee add salary numeric(5, 3);
+
+update employee set salary=1;
+
+rename employee to employee1;

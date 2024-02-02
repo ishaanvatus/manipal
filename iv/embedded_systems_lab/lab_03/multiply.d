@@ -1,1 +1,0 @@
-.\multiply.o: multiply.s
