@@ -1,0 +1,13 @@
+# NXP (founded by Philips) LPC1768
+
+The NXP (founded by Philips) LPC1768 is an ARM 32-bit Cortex-M3 Microcontroller with MPU, CPU clock up to 100MHz, 
+512kB on-chip Flash ROM with enhanced Flash Memory Accelerator, In-System Programming (ISP) and 
+In-Application Programming (IAP), 64kB RAM, Nested Vectored Interrupt Controller, Eight channel General purpose 
+DMA controller, AHB Matrix, APB, Ethernet 10/100 MAC with RMII interface and dedicated DMA, USB 2.0 full-speed 
+Device controller and Host/OTG controller with DMA, CAN 2.0B with two channels, Four UARTs, one with 
+full Modem interface, Three I2C serial interfaces, Three SPI/SSP serial interfaces, I2S interface, 
+General purpose I/O pins, 12-bit ADC with 8 channels, 10-bit DAC, Four 32-bit Timers with capture/compare, 
+Standard PWM Timer block, Motor control PWM for three-phase Motor control, Quadrature Encoder, Watchdog Timer, 
+Real Time Clock with optional Battery backup, System Tick Timer, Repetitive Interrupt Timer, Brown-out detect circuit, 
+Power-On Reset, Power Management Unit, Wakeup Interrupt Controller, Crystal oscillator, 4MHz internal RC oscillator, PLL,
+ JTAG and Serial Wire Debug/Trace Port with ETM.

@@ -1,0 +1,182 @@
+1.
+SQL> select bdate, address from employee where fname='John' and minit='B' and lname='Smith';
+
+BDATE     ADDRESS
+--------- ------------------------------
+09-JAN-65 731 Fondren, Houston, TX
+
+SQL> select bdate, address from employee where dno = (select dnumber from department where dname='Research');
+
+BDATE     ADDRESS
+--------- ------------------------------
+09-JAN-65 731 Fondren, Houston, TX
+08-DEC-65 638 Voss, Houston, TX
+15-SEP-62 975 Fire Oak, Humble, TX
+31-JUL-72 5631 Rice, Houston, TX
+
+2.
+SQL> select p.dnum, e.lname, e.address, e.bdate from employee e, project p where exists (select w.essn from works_on w where w.essn = e.ssn and p.pnumber = w.pno) and p.plocation='Stafford';
+
+      DNUM LNAME           ADDRESS                        BDATE
+---------- --------------- ------------------------------ ---------
+         4 Wong            638 Voss, Houston, TX          08-DEC-65
+         4 Zelaya          3321 Castle, Spring, TX        19-JAN-68
+         4 Jabbar          980 Dallas, Houston, TX        29-MAR-69
+
+3.
+SQL> select * from ((select e.fname, e.lname, e.ssn, e.super_ssn from employee e where e.super_ssn is not null and e.ssn != e.super_ssn) natural join (select fname as sup_fname, lname sup_lname, ssn as super_ssn from employee));
+
+SUPER_SSN FNAME           LNAME           SSN       SUP_FNAME
+--------- --------------- --------------- --------- ---------------
+SUP_LNAME
+---------------
+333445555 Joyce           English         453453453 Franklin
+Wong
+
+333445555 Ramesh          Narayan         666884444 Franklin
+Wong
+
+333445555 John            Smith           123456789 Franklin
+Wong
+
+
+SUPER_SSN FNAME           LNAME           SSN       SUP_FNAME
+--------- --------------- --------------- --------- ---------------
+SUP_LNAME
+---------------
+987654321 Ahmad           Jabbar          987987987 Jennifer
+Wallace
+
+987654321 Alicia          Zelaya          999887777 Jennifer
+Wallace
+
+888665555 Jennifer        Wallace         987654321 James
+Borg
+
+
+SUPER_SSN FNAME           LNAME           SSN       SUP_FNAME
+--------- --------------- --------------- --------- ---------------
+SUP_LNAME
+---------------
+888665555 Franklin        Wong            333445555 James
+Borg
+
+
+7 rows selected.
+4.
+SQL> select p.pnumber from project p where exists (select * from employee e where e.lname='Smith' and p.dnum = e.dno);
+
+   PNUMBER
+----------
+         3
+         2
+         1
+5.
+SQL> select 1.10*e.salary productx_raise from employee e where exists (select * from works_on w where w.essn = e.ssn and w.pno = (select pnumber from project where pname='ProductX'));
+
+PRODUCTX_RAISE
+--------------
+         33000
+         27500
+6.
+SQL> select p.pnumber, fname, lname, dno from employee e, project p where exists (select * from works_on won where won.essn = e.ssn and p.pnumber = won.pno) order by e.dno, e.lname, e.fname;
+
+   PNUMBER FNAME           LNAME                  DNO
+---------- --------------- --------------- ----------
+        20 James           Borg                     4
+        10 Ahmad           Jabbar                   4
+        30 Ahmad           Jabbar                   4
+        30 Jennifer        Wallace                  4
+        20 Jennifer        Wallace                  4
+        30 Alicia          Zelaya                   4
+        10 Alicia          Zelaya                   4
+         2 Joyce           English                  5
+         1 Joyce           English                  5
+         3 Ramesh          Narayan                  5
+         2 John            Smith                    5
+
+   PNUMBER FNAME           LNAME                  DNO
+---------- --------------- --------------- ----------
+         1 John            Smith                    5
+        20 Franklin        Wong                     5
+         3 Franklin        Wong                     5
+         2 Franklin        Wong                     5
+        10 Franklin        Wong                     5
+
+16 rows selected.
+7.
+SQL> select e.fname, e.minit, e.lname from employee e where exists (select * from dependent d where d.essn = e.ssn and d.sex = e.sex and d.dependent_name = e.fname);
+
+no rows selected
+8.
+SQL> select e.fname, e.minit, e.lname from employee e where not exists (select * from dependent d where d.essn = e.ssn);
+
+FNAME           M LNAME
+--------------- - ---------------
+Richard         K Marini
+Ahmad           V Jabbar
+Alicia          J Zelaya
+James           E Borg
+Joyce           A English
+Ramesh          K Narayan
+
+6 rows selected.
+9.
+SQL> select e.fname, e.minit, e.lname from employee e where e.ssn in (select mgr_ssn ssn from department) and exists (select * from dependent d where d.essn = e.ssn);
+
+FNAME           M LNAME
+--------------- - ---------------
+Franklin        T Wong
+Jennifer        S Wallace
+10.
+SQL> select sum(salary) from employee;
+
+SUM(SALARY)
+-----------
+     318000
+
+SQL> select max(salary) from employee;
+
+MAX(SALARY)
+-----------
+      55000
+
+SQL> select min(salary) from employee;
+
+MIN(SALARY)
+-----------
+      25000
+
+SQL> select avg(salary) from employee;
+
+AVG(SALARY)
+-----------
+ 35333.3333
+11.
+SQL> select pno, count(ssn) from ((select p.pnumber pno, e.ssn from employee e, project p where exists (select won.essn from works_on won where won.essn = e.ssn and won.pno = p.pnumber)) natural join (select pno, essn as ssn from works_on)) group by pno;
+
+       PNO COUNT(SSN)
+---------- ----------
+         1          2
+        30          3
+         2          3
+        20          3
+         3          2
+        10          3
+
+6 rows selected.
+12.
+SQL> select pno, count(ssn) from ((select p.pnumber pno, e.ssn from employee e, project p where exists (select won.essn from works_on won where won.essn = e.ssn and won.pno = p.pnumber)) natural join (select pno, essn as ssn from works_on)) group by pno having count(ssn) > 2;
+
+       PNO COUNT(SSN)
+---------- ----------
+        30          3
+         2          3
+        20          3
+        10          3
+13.
+SQL> select emp.dno, count(emp.ssn) from employee emp where emp.salary > 40000 and emp.dno in (select e.dno from employee e group by e.dno having count(e.ssn) > 4) group by dno;
+
+       DNO COUNT(EMP.SSN)
+---------- --------------
+         4              2

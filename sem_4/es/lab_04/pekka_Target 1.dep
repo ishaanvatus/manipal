@@ -1,0 +1,2 @@
+Dependencies for Project 'pekka', Target 'Target 1': (DO NOT MODIFY !)
+F (.\add_bcd.s)(0x65CECCF8)(--cpu Cortex-M3 --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC17xx--list .\add_bcd.lst --xref -o .\add_bcd.o --depend .\add_bcd.d)

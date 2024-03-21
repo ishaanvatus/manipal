@@ -1,0 +1,2 @@
+Dependencies for Project 'touhou', Target 'Target 1': (DO NOT MODIFY !)
+F (C:\Users\Student.PRG-10.001\Desktop\q.s)(0x65CB39F4)(--cpu Cortex-M3 --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC17xx--list .\q.lst --xref -o .\q.o --depend .\q.d)

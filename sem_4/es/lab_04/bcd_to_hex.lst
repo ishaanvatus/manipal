@@ -1,0 +1,180 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; 32 bit packed to equivalent hex
+    2 00000000                 area             reset, data, readonly
+    3 00000000                 export           __Vectors
+    4 00000000         
+    5 00000000         ; renaming regs for ease of writing asm
+    6 00000000        0 
+                       packed_ptr
+                               rn               r0
+    7 00000000        1 
+                       hex_ptr rn               r1
+    8 00000000        2 
+                       packed  rn               r2
+    9 00000000        3 
+                       hex     rn               r3
+   10 00000000        4 
+                       mask    rn               r4
+   11 00000000        5 
+                       ten_pow rn               r5
+   12 00000000        6 
+                       count   rn               r6
+   13 00000000        7 
+                       temp    rn               r7
+   14 00000000        8 
+                       ten     rn               r8
+   15 00000000         
+   16 00000000         __Vectors
+   17 00000000 10001000        dcd              0x10001000
+   18 00000004 00000000        dcd              Reset_Handler
+   19 00000008                 align
+   20 00000008                 area             program, code, readonly
+   21 00000000                 entry
+   22 00000000                 export           Reset_Handler
+   23 00000000         
+   24 00000000         Reset_Handler
+   25 00000000 480D            ldr              packed_ptr, =num
+   26 00000002 6802            ldr              packed, [packed_ptr]
+   27 00000004 F04F 0501       mov              ten_pow, #1
+   28 00000008 F04F 080A       mov              ten, #0x0A
+   29 0000000C F04F 0300       mov              hex, #0x00
+   30 00000010 F04F 040F       mov              mask, #0x0f
+   31 00000014 F04F 0608       mov              count, #0x08
+   32 00000018         loop
+   33 00000018 EA02 0704       and              temp, packed, mask
+   34 0000001C FB07 3305       mla              hex, temp, ten_pow, hex
+   35 00000020 FB05 F508       mul              ten_pow, ten
+   36 00000024 EA4F 1212       lsr              packed, #4
+   37 00000028 1E76            subs             count, count, #1
+   38 0000002A D1F5            bne              loop
+   39 0000002C         store
+   40 0000002C 4903            ldr              hex_ptr, =res
+   41 0000002E 600B            str              hex, [hex_ptr]
+   42 00000030         stop
+   43 00000030 E7FE            b                stop
+   44 00000032         
+   45 00000032 00 00 00004096 
+                       num     dcd              0x00004096
+   46 00000038 00000000 
+              00000000         area             result, data, readwrite
+   47 00000000 00000000 
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                       res     dcd              0
+   48 00000004                 end
+Command Line: --debug --xref --cpu=Cortex-M3 --apcs=interwork --depend=.\bcd_to
+_hex.d -o.\bcd_to_hex.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Include -IC:
+\Keil\ARM\Inc\NXP\LPC17xx --predefine="__EVAL SETA 1" --list=.\bcd_to_hex.lst b
+cd_to_hex.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__Vectors 00000000
+
+Symbol: __Vectors
+   Definitions
+      At line 16 in file bcd_to_hex.s
+   Uses
+      At line 3 in file bcd_to_hex.s
+Comment: __Vectors used once
+reset 00000000
+
+Symbol: reset
+   Definitions
+      At line 2 in file bcd_to_hex.s
+   Uses
+      None
+Comment: reset unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Reset_Handler 00000000
+
+Symbol: Reset_Handler
+   Definitions
+      At line 24 in file bcd_to_hex.s
+   Uses
+      At line 18 in file bcd_to_hex.s
+      At line 22 in file bcd_to_hex.s
+
+loop 00000018
+
+Symbol: loop
+   Definitions
+      At line 32 in file bcd_to_hex.s
+   Uses
+      At line 38 in file bcd_to_hex.s
+Comment: loop used once
+num 00000034
+
+Symbol: num
+   Definitions
+      At line 45 in file bcd_to_hex.s
+   Uses
+      At line 25 in file bcd_to_hex.s
+Comment: num used once
+program 00000000
+
+Symbol: program
+   Definitions
+      At line 20 in file bcd_to_hex.s
+   Uses
+      None
+Comment: program unused
+stop 00000030
+
+Symbol: stop
+   Definitions
+      At line 42 in file bcd_to_hex.s
+   Uses
+      At line 43 in file bcd_to_hex.s
+Comment: stop used once
+store 0000002C
+
+Symbol: store
+   Definitions
+      At line 39 in file bcd_to_hex.s
+   Uses
+      None
+Comment: store unused
+6 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+res 00000000
+
+Symbol: res
+   Definitions
+      At line 47 in file bcd_to_hex.s
+   Uses
+      At line 40 in file bcd_to_hex.s
+Comment: res used once
+result 00000000
+
+Symbol: result
+   Definitions
+      At line 46 in file bcd_to_hex.s
+   Uses
+      None
+Comment: result unused
+2 symbols
+352 symbols in table

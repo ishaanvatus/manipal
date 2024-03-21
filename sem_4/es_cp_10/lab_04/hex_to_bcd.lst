@@ -1,0 +1,203 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; 16 bit hex to packed bcd
+    2 00000000         
+    3 00000000                 area             reset, data, readonly
+    4 00000000                 export           __Vectors
+    5 00000000         
+    6 00000000         __Vectors
+    7 00000000 10001000        dcd              0x10001000  ; address of stack 
+                                                            pointer (fully desc
+                                                            ending)
+    8 00000004 00000000        dcd              Reset_Handler
+    9 00000008                 align
+   10 00000008                 area             mycode, code, readonly
+   11 00000000                 entry
+   12 00000000                 export           Reset_Handler
+   13 00000000         
+   14 00000000         Reset_Handler
+   15 00000000         
+   16 00000000 4E14            ldr              r6,=result
+   17 00000002 F04F 0200       mov              r2,#00
+   18 00000006 4814            ldr              r0,=value1
+   19 00000008 6801            ldr              r1,[r0]
+   20 0000000A 290A    up      cmp              r1,#0xa
+   21 0000000C D304            bcc              store
+   22 0000000E F1A1 010A       sub              r1,#0xa
+   23 00000012 F102 0201       add              r2,#01
+   24 00000016 E7F8            b                up
+   25 00000018 F806 1B01 
+                       store   strb             r1,[r6],#1
+   26 0000001C F04F 0200       mov              r2,#0
+   27 00000020 290A            cmp              r1,#0xa
+   28 00000022 D2F2            bcs              up
+   29 00000024 7031            strb             r1,[r6]
+   30 00000026 4633            mov              r3,r6
+   31 00000028 4A0C            ldr              r2,=packed
+   32 0000002A 4E0A            ldr              r6,=result
+   33 0000002C EBA3 0406       sub              r4,r3,r6
+   34 00000030 F816 0B01 
+                       up1     ldrb             r0,[r6],#1
+   35 00000034 F816 1B01       ldrb             r1,[r6],#1
+   36 00000038 EA4F 1101       lsl              r1,#4
+   37 0000003C EA41 0100       orr              r1,r0
+   38 00000040 F802 1B01       strb             r1,[r2],#1
+   39 00000044 F1A4 0401       sub              r4,#1
+   40 00000048 2C02            cmp              r4,#2
+   41 0000004A D2F1            bcs              up1
+   42 0000004C         stop
+   43 0000004C E7FE            b                stop
+   44 0000004E 00 00 000000EA 
+                       value1  dcd              0xea
+   45 00000054 00000000 
+              00000000 
+              00000000 
+              00000000         area             mydata, data, readwrite
+   46 00000000 00000000 
+              00000000 
+              00000000 
+              00000000 
+              00000000 
+              00000000 
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+              00000000 
+              00000000 
+              00000000 
+              00000000 result  dcd              0,0,0,0,0,0,0,0,0,0
+   47 00000028 00000000 
+                       packed  dcd              0
+   48 0000002C                 end
+Command Line: --debug --xref --cpu=Cortex-M3 --apcs=interwork --depend=.\hex_to
+_bcd.d -o.\hex_to_bcd.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Include -IC:
+\Keil\ARM\Inc\NXP\LPC17xx --predefine="__EVAL SETA 1" --list=.\hex_to_bcd.lst h
+ex_to_bcd.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__Vectors 00000000
+
+Symbol: __Vectors
+   Definitions
+      At line 6 in file hex_to_bcd.s
+   Uses
+      At line 4 in file hex_to_bcd.s
+Comment: __Vectors used once
+reset 00000000
+
+Symbol: reset
+   Definitions
+      At line 3 in file hex_to_bcd.s
+   Uses
+      None
+Comment: reset unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Reset_Handler 00000000
+
+Symbol: Reset_Handler
+   Definitions
+      At line 14 in file hex_to_bcd.s
+   Uses
+      At line 8 in file hex_to_bcd.s
+      At line 12 in file hex_to_bcd.s
+
+mycode 00000000
+
+Symbol: mycode
+   Definitions
+      At line 10 in file hex_to_bcd.s
+   Uses
+      None
+Comment: mycode unused
+stop 0000004C
+
+Symbol: stop
+   Definitions
+      At line 42 in file hex_to_bcd.s
+   Uses
+      At line 43 in file hex_to_bcd.s
+Comment: stop used once
+store 00000018
+
+Symbol: store
+   Definitions
+      At line 25 in file hex_to_bcd.s
+   Uses
+      At line 21 in file hex_to_bcd.s
+Comment: store used once
+up 0000000A
+
+Symbol: up
+   Definitions
+      At line 20 in file hex_to_bcd.s
+   Uses
+      At line 24 in file hex_to_bcd.s
+      At line 28 in file hex_to_bcd.s
+
+up1 00000030
+
+Symbol: up1
+   Definitions
+      At line 34 in file hex_to_bcd.s
+   Uses
+      At line 41 in file hex_to_bcd.s
+Comment: up1 used once
+value1 00000050
+
+Symbol: value1
+   Definitions
+      At line 44 in file hex_to_bcd.s
+   Uses
+      At line 18 in file hex_to_bcd.s
+Comment: value1 used once
+7 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+mydata 00000000
+
+Symbol: mydata
+   Definitions
+      At line 45 in file hex_to_bcd.s
+   Uses
+      None
+Comment: mydata unused
+packed 00000028
+
+Symbol: packed
+   Definitions
+      At line 47 in file hex_to_bcd.s
+   Uses
+      At line 31 in file hex_to_bcd.s
+Comment: packed used once
+result 00000000
+
+Symbol: result
+   Definitions
+      At line 46 in file hex_to_bcd.s
+   Uses
+      At line 16 in file hex_to_bcd.s
+      At line 32 in file hex_to_bcd.s
+
+3 symbols
+345 symbols in table

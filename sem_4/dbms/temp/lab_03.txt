@@ -1,0 +1,12 @@
+(select c.title from (course c natural join teaches t) where t.year=2009 and t.semester='Fall')
+union
+(select c.title from (course c natural join teaches t) where t.year=2010 and t.semester='Spring');
+
+(select c.title from (course c natural join teaches t) where t.year=2009 and t.semester='Fall')
+intersect
+(select c.title from (course c natural join teaches t) where t.year=2010 and t.semester='Spring');
+
+(select c.title from (course c natural join teaches t) where t.year=2009 and t.semester='Fall')
+minus
+(select c.title from (course c natural join teaches t) where t.year=2010 and t.semester='Spring');
+

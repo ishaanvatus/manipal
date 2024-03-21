@@ -1,0 +1,1 @@
+.\factorio.o: factorio.s
