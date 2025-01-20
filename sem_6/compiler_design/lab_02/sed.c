@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#define TAB 9
-#define SPACE 32
+
 int main(int argc, char **argv)
 {
 	char ch, *output_file = "sanitized";

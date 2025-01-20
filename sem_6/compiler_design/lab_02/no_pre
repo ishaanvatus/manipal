@@ -1,0 +1,21 @@
+
+void main(int argc, char **argv) 
+{
+FILE *fp = fopen("pixels.ppm", "wb");
+int width = atoi(argv[1]);
+int height = atoi(argv[2]);
+fprintf(fp, "P%d\n%d %d\n%d\n", PPM_TYPE, width, height, PPM_DEPTH);
+printf("#");
+printf("extern");
+char r, g, b;
+for (int row = 0; row < height; row++) {
+for (int col = 0; col < width; col++) {
+r = row%256;
+g = col%256;
+b = (row + col)%256;
+fwrite(&r, sizeof(char), 1, fp);
+fwrite(&g, sizeof(char), 1, fp);
+fwrite(&b, sizeof(char), 1, fp);
+}
+}
+}
