@@ -1,3 +1,7 @@
+/*
+ * lexer.c
+ * function implementations
+ */
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -62,14 +66,42 @@ void regurge_keywords(char *input_file, char *output_file)
 	FILE *op = fopen(output_file, "w");
 	int text_len = 0;
     char ch;
+    bool in_slc, in_mlc, in_str, esc;
+    in_slc = false;
+    in_mlc = false;
+    in_str = false;
+    esc = false;
 	while ((ch = getc(fp)) != EOF)
 		text_len++;
 	rewind(fp);
     char *text = malloc(text_len*sizeof(char));
     fread(text, sizeof(char), text_len, fp);
 	for (int index = 0; index < keyword_count; index++) {
-		int pattern_len = strlen(keywords[index]);
+        int pattern_len = strlen(keywords[index]);
 		for (int i = 0; i < text_len - pattern_len; i++) {
+            if (esc) {
+                esc = false;
+                continue;
+            }
+            if (text[i] == '\\') {
+                esc = true;
+                continue;
+            }
+            if (!in_str && !in_mlc && text[i] == '/' && text[i + 1] == '/')
+                in_slc = true;
+            if (in_slc && text[i] == '\n')
+                in_slc = false;
+            if (!in_str && !in_slc && text[i] == '/' && text[i + 1] == '*')
+                in_mlc = true;
+            if (in_mlc && text[i] == '*' && text[i + 1] == '/') {
+                in_mlc = false;
+                i++;
+                continue;
+            }
+            if (!in_slc && !in_mlc && text[i] == '"')
+                in_str = !in_str;
+            if (in_slc || in_mlc || in_str)
+                continue;
 			int matches;
 			for (matches = 0; matches < pattern_len; matches++) {
                 if (text[i+matches] != keywords[index][matches])
@@ -79,7 +111,6 @@ void regurge_keywords(char *input_file, char *output_file)
                 fwrite(keywords[index], sizeof(char), pattern_len, op);
                 fwrite("\n", sizeof(char), 1, op);
             }
-                
 		}
 	}
 	fclose(fp);
