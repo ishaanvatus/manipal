@@ -1,0 +1,26 @@
+void failure();
+void success();
+void s(char **str);
+void failure()
+{
+    fprintf(stderr, "FAILURE\n");
+    exit(1);
+}
+void success()
+{
+    fprintf(stdout, "SUCCESS\n");
+    exit(0);
+}
+void s(char **str)
+{
+}
+int main(int argc, char **argv)
+{
+    char *input = argv[1];
+    s(&input);
+    if (*input == '$')
+        valid();
+    invalid();
+    return 0;
+}
+
